@@ -1,0 +1,295 @@
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+# Let's set environment
+project_root = File.expand_path("#{__dir__}/../")
+certs_git_url = ENV['MATCH_GIT_URL'] || "ssh://git@git.totaralearning.com:7999/mob/mobile-certificates.git"
+ios_app_store_app_identifier = ENV['IOS_APP_STORE_APP_IDENTIFIER'] || "com.totaralearning.TotaraMobileApp"
+ios_ad_hoc_app_identifier = ENV['IOS_AD_HOC_APP_IDENTIFIER'] || "#{ios_app_store_app_identifier}.qa"
+ios_team_id = ENV['IOS_DEVELOPMENT_TEAM_ID']
+
+# Disabling metro bundler
+ENV['RCT_NO_LAUNCH_PACKAGER'] = "1" unless ENV['RCT_NO_LAUNCH_PACKAGER']
+
+
+########################################################################################################################
+# Init related tasks
+########################################################################################################################
+
+desc "Prepare configuration stubs"
+lane :stubs do
+
+  # Oops, we need that
+  raise '$SENTRY_PROJECT_URL must be set' unless ENV['SENTRY_PROJECT_URL']
+
+  # Writing config overrides file
+  File.write("#{project_root}/src/totara/lib/config.local.ts", "export default #{{sentryUri: ENV['SENTRY_PROJECT_URL']}.to_json};")
+
+  # Let's create build output folder if it does not exists
+  sh "mkdir -p '#{project_root}/build'"
+end
+
+desc "Initialise node modules"
+lane :node do
+  # Let's prepare configuration stubs
+  stubs
+
+  # NPM install
+  sh "(cd '#{project_root}' && ADBLOCK=1 yarn install --frozen-lockfile)"
+end
+
+desc "Initialise cocoapods"
+lane :pods do
+  sh("bundle", "update")
+  # pod install
+  cocoapods(
+    clean_install: true,
+    podfile: "#{project_root}/ios"
+  )
+end
+
+desc "Run unit tests"
+lane :jest do
+
+ maxConcurrency = ENV['JEST_MAX_CONCURRENCY'] || "2"
+
+ sh "(cd '#{project_root}' && ./node_modules/.bin/jest --ci --reporters=jest-junit --silent --maxConcurrency='#{maxConcurrency}')"
+end
+
+desc "Cleanup artifacts from previous builds"
+lane :cleanup do
+ sh "rm -rf '#{project_root}/build' '#{project_root}/eslint.xml' '#{project_root}/junit.xml' && mkdir -p '#{project_root}/build'"
+end
+
+desc "Run linter"
+lane :lint do
+  sh "(cd '#{project_root}' && ./node_modules/.bin/eslint -c .eslintrc.json --ext .js --ext .ts --ext .tsx ./src/totara -f checkstyle -o coverage/eslint.xml)"
+end
+
+desc "Run the full build"
+lane :build do |options|
+  raise "Oops, incorrect build actions has been passed: '#{options[:what]}'" unless ['ad_hoc', 'app_store'].include?(options[:what])
+
+  # We are running the full build, with lint, jest and friends...
+  node
+  lint
+  jest
+  eval options[:what]
+  eval "android_#{options[:what]}"
+end
+
+
+########################################################################################################################
+# IOS specific tasks
+########################################################################################################################
+
+desc "Prepare iOS certificates"
+lane :certificates do |options|
+  app_id = ""
+
+  keychain_password = ENV['KEYCHAIN_PASSWORD']
+  api_key_file = ENV['APPLE_APPSTORE_KEY_FIlE'] || "#{project_root}/fastlane/appstore-key.json"
+
+  if is_ci
+    setup_jenkins(
+      keychain_path: 'login.keychain',
+      keychain_password: keychain_password,
+    )
+  end
+
+  raise '$MATCH_PASSWORD must be set' unless ENV['MATCH_PASSWORD']
+  raise '$KEYCHAIN_PASSWORD must be set, it should match your build machine user password' unless keychain_password
+  raise "'#{api_key_file}' appstore key does not exist! Can not proceed" unless File.file?(api_key_file)
+
+  case options[:type]
+    when "appstore"
+      app_id = ios_app_store_app_identifier
+    when "adhoc"
+      app_id = ios_ad_hoc_app_identifier
+    else
+      raise "Unknown signing type has been passed"
+  end
+
+  match(
+    type: options[:type],
+    api_key_path: api_key_file,
+    git_url: certs_git_url,
+    app_identifier: app_id,
+    readonly: true,
+    keychain_password: keychain_password
+  )
+
+  dev_team_env_name = "sigh_#{lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING].keys[0]}_#{options[:type]}_team-id"
+  ios_team_id = ENV[dev_team_env_name] unless ios_team_id
+end
+
+desc "Build application for AppStore"
+lane :app_store do
+  shared_prerequisites
+  ios_prerequisites
+
+  # Let's copy plist file
+  sh "cp '#{ENV['IOS_GOOGLE_SERVICES_PLIST']}' '#{project_root}/ios/GoogleService-Info.plist'"
+
+  profile = "match AppStore #{ios_app_store_app_identifier}"
+  xcargs = "CODE_SIGN_IDENTITY='iPhone Distribution' CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE_SPECIFIER='#{profile}'"
+
+  certificates(type: 'appstore')
+
+  if ios_team_id
+    xcargs = xcargs + " DEVELOPMENT_TEAM='#{ios_team_id}'"
+  end
+
+  build_app(
+    clean: true,
+    scheme: "TotaraMobileApp",
+    workspace: "ios/TotaraMobileApp.xcworkspace",
+    output_directory: "build",
+    output_name: "Totara-AppStore.ipa",
+    configuration: "Release",
+    export_method: "app-store",
+    export_options: {
+      provisioningProfiles: {
+        ios_app_store_app_identifier => profile,
+      },
+    },
+    xcargs: xcargs
+  )
+end
+
+desc "Build application for adhoc testing"
+lane :ad_hoc do
+  shared_prerequisites
+  ios_prerequisites
+
+  # Let's copy plist file
+  sh "cp '#{ENV['IOS_GOOGLE_SERVICES_PLIST']}' '#{project_root}/ios/GoogleService-Info.plist'"
+
+  profile = "match AdHoc #{ios_ad_hoc_app_identifier}"
+  xcargs = "CODE_SIGN_IDENTITY='iPhone Distribution' CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE_SPECIFIER='#{profile}'"
+
+  certificates(type: 'adhoc')
+
+  if ios_team_id
+    xcargs = xcargs + " DEVELOPMENT_TEAM='#{ios_team_id}'"
+  end
+
+  build_app(
+    clean: true,
+    scheme: "TotaraMobileApp",
+    workspace: "ios/TotaraMobileApp.xcworkspace",
+    output_directory: "build",
+    output_name: "Totara-AdHoc.ipa",
+    configuration: "Test.Release",
+    export_method: "ad-hoc",
+    export_options: {
+      provisioningProfiles: {
+        ios_ad_hoc_app_identifier => profile,
+      },
+    },
+    xcargs: xcargs
+  )
+end
+
+
+########################################################################################################################
+# Android specific tasks
+########################################################################################################################
+
+desc "Build application for PlayStore"
+lane :android_app_store do
+  shared_prerequisites
+  android_prerequisites
+
+  # Let's check code signing requirements for appstore
+  raise 'Android keystore file "$ANDROID_KEYSTORE_PASSWORD_KEY" does not exist' unless File.file?(ENV['ANDROID_KEYSTORE_FILE'] || 'I do not exist')
+  raise 'Android keystore password "$ANDROID_KEYSTORE_PASSWORD_KEY" is not set' unless ENV['ANDROID_KEYSTORE_PASSWORD']
+  raise 'Android keystore key password "$ANDROID_KEYSTORE_KEY_PASSWORD" is not set' unless ENV['ANDROID_KEYSTORE_KEY_PASSWORD']
+  raise 'Android keystore key alias "$ANDROID_KEYSTORE_KEY_ALIAS" is not set' unless ENV['ANDROID_KEYSTORE_KEY_ALIAS']
+
+  # Let's set ANDROID_HOME to default android SDK when installed using brew if not set.
+  ENV['ANDROID_HOME'] = '/usr/local/share/android-sdk' unless ENV['ANDROID_HOME']
+
+  # Let's copy plist file
+  sh "cp '#{ENV['ANDROID_GOOGLE_SERVICES_JSON']}' '#{project_root}/android/app'"
+
+  gradle(
+    task: "clean",
+    project_dir: 'android',
+  )
+
+  build_android_app(
+    task: 'assemble',
+    flavor: 'prod',
+    build_type: 'Release',
+    project_dir: 'android',
+    print_command: false,
+    properties: {
+      "MYAPP_RELEASE_STORE_FILE" => ENV["ANDROID_KEYSTORE_FILE"],
+      "MYAPP_RELEASE_STORE_PASSWORD" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+      "MYAPP_RELEASE_KEY_ALIAS" => ENV["ANDROID_KEYSTORE_KEY_ALIAS"],
+      "MYAPP_RELEASE_KEY_PASSWORD" => ENV["ANDROID_KEYSTORE_KEY_PASSWORD"],
+    }
+  )
+
+  # We gotta copy built app buried deep in the android project folder
+  sh "cp '#{project_root}/android/app/build/outputs/apk/prod/release/app-prod-release.apk' '#{project_root}/build/.'"
+end
+
+
+desc "Build application for AdHoc testing"
+lane :android_ad_hoc do
+  shared_prerequisites
+  android_prerequisites
+
+  # Let's set ANDROID_HOME to default android SDK when installed using brew if not set.
+  ENV['ANDROID_HOME'] = '/usr/local/share/android-sdk' unless ENV['ANDROID_HOME']
+
+  # Let's copy plist file
+  sh "cp '#{ENV['ANDROID_GOOGLE_SERVICES_JSON']}' '#{project_root}/android/app'"
+
+  gradle(
+    task: "clean",
+    project_dir: 'android',
+  )
+
+  build_android_app(
+    task: 'assemble',
+    flavor: 'qa',
+    build_type: 'Release',
+    project_dir: 'android',
+    properties: {
+      "MYAPP_RELEASE_SELF_SIGNED" => "YES",
+    }
+  )
+
+  # We gotta copy built app buried deep in the android project folder
+  sh "cp '#{project_root}/android/app/build/outputs/apk/qa/release/app-qa-release.apk' '#{project_root}/build/.'"
+end
+
+########################################################################################################################
+# Sanity checks
+########################################################################################################################
+
+desc "Check iOS build prerequisites"
+private_lane :ios_prerequisites do
+  # Check that Google plist for iOS exists
+  raise 'Google services pList environment variable $IOS_GOOGLE_SERVICES_PLIST is not set' unless ENV['IOS_GOOGLE_SERVICES_PLIST']
+  raise 'Google services pList file "#{ENV["IOS_GOOGLE_SERVICES_PLIST"]}" does not exist' unless File.file?(ENV['IOS_GOOGLE_SERVICES_PLIST'])
+end
+
+desc "Check Android build prerequisites"
+private_lane :android_prerequisites do
+  # Check that Google services file for Android exists
+  raise 'Google services pList environment variable $ANDROID_GOOGLE_SERVICES_JSON is not set' unless ENV['ANDROID_GOOGLE_SERVICES_JSON']
+  raise 'Google services pList file "#{ENV["ANDROID_GOOGLE_SERVICES_JSON"]}" does not exist' unless File.file?(ENV['ANDROID_GOOGLE_SERVICES_JSON'])
+end
+
+desc "Check shared build prerequisites"
+private_lane :shared_prerequisites do
+  # Let's check sentry project URL
+  raise '$SENTRY_AUTH_TOKEN must be set' unless ENV['SENTRY_AUTH_TOKEN']
+
+  # Let's check config overrides file
+  raise 'local overrides config file "#{project_root}/src/totara/lib/config.local.ts" does not exist' unless File.file?("#{project_root}/src/totara/lib/config.local.ts")
+end

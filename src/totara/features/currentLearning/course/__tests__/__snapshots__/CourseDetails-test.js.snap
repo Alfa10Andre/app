@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing: Apollo MockedProvider should test three state such as loading, final and error Test result : Once render, it will return child component 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "column",
+      "height": "100%",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignContent": "space-between",
+        "alignItems": "center",
+        "padding": 8,
+      }
+    }
+  >
+    <Image
+      source="test-file-stub"
+    />
+    <Text
+      style={
+        Object {
+          "color": "#000000",
+          "fontSize": 32,
+          "fontWeight": "700",
+          "lineHeight": 41,
+          "padding": 8,
+          "textAlign": "center",
+        }
+      }
+    >
+      translated content_error.title with undefined
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#000000",
+          "fontSize": 17,
+          "fontWeight": "400",
+          "lineHeight": 22,
+          "marginHorizontal": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      translated content_error.description with undefined
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "padding": 8,
+      }
+    }
+  >
+    <View
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          disabled={false}
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "margin": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          this is a mock button
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Testing: Apollo MockedProvider should test three state such as loading, final and error Test result : Render loading state initially and return no component 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text>
+    mock spinner
+  </Text>
+</View>
+`;
+
+exports[`Testing: Apollo MockedProvider should test three state such as loading, final and error Test result : Set mock-error response and return Error UI 1`] = `
+<View
+  style={
+    Object {
+      "alignSelf": "center",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text>
+    mock spinner
+  </Text>
+</View>
+`;
+
+exports[`Testing: Course manual completion Test result : course complete and loading action modal to confirm 1`] = `
+<Modal
+  animationType="fade"
+  hardwareAccelerated={false}
+  transparent={true}
+  visible={true}
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(0, 0, 0, 0.3)",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderRadius": 4,
+          "justifyContent": "center",
+          "marginHorizontal": 24,
+          "paddingVertical": 32,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "marginBottom": 16,
+            "marginHorizontal": 24,
+          }
+        }
+      >
+        <Image
+          source="test-file-stub"
+          style={
+            Object {
+              "alignItems": "center",
+              "resizeMode": "contain",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "marginBottom": 16,
+            "marginHorizontal": 24,
+          }
+        }
+      >
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={2}
+          style={
+            Object {
+              "color": "#3D444B",
+              "fontSize": 32,
+              "fontWeight": "700",
+              "lineHeight": 41,
+              "paddingBottom": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          translated course.course_complete.title with undefined
+        </Text>
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={3}
+          style={
+            Object {
+              "color": "#3D444B",
+              "fontSize": 17,
+              "fontWeight": "400",
+              "lineHeight": 22,
+              "paddingBottom": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          translated course.course_complete.description with undefined
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            <Text
+              disabled={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#007AFF",
+                    "fontSize": 18,
+                    "margin": 8,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              this is a mock button
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</Modal>
+`;

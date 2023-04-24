@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoCurrentLearning, No current learning screen should launch when api return doesn't have courses Test result : take screen-shot when no current learning 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <Image
+    source="test-file-stub"
+  />
+  <Text
+    style={
+      Object {
+        "color": "#000000",
+        "fontSize": 22,
+        "fontWeight": "bold",
+        "lineHeight": 28,
+        "paddingTop": 32,
+      }
+    }
+  >
+    translated current_learning.no_learning_message with undefined
+  </Text>
+  <View
+    style={
+      Object {
+        "paddingTop": 32,
+      }
+    }
+  >
+    <View
+      accessibilityRole="button"
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          disabled={false}
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "margin": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          this is a mock button
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

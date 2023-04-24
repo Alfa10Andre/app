@@ -1,0 +1,60 @@
+{
+    "env": {
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly",
+        "RequestInfo": "readonly",
+        "RequestInit": "readonly",
+        "JSX": "readonly",
+        "Element": "readonly",
+        "Response": "readonly",
+        "ResourceListEffectProps": "readonly",
+        "AttemptReport": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "prettier",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "react/jsx-uses-vars": "error"
+    },
+    "overrides": [
+        {
+            "files": [ "src/totara/**/*.tsx", "src/totara/**/*.ts" ],
+            "rules": {
+                "no-unused-vars": "off",
+                "@typescript-eslint/no-unused-vars": "error",
+                "react/display-name": "off",
+                "no-redeclare": "off",
+                "@typescript-eslint/no-redeclare": ["error"]
+            }
+        },
+        {
+            "files": [ "**/__tests__/*.js" ],
+            "rules": {
+                "no-import-assign": "off"
+            }
+        }
+    ],
+	"parser": "@typescript-eslint/parser"
+}

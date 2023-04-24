@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Activity-Label-Type, testing UI with or without label Test result : label include value 1`] = `
+<View
+  style={
+    Object {
+      "justifyContent": "center",
+      "marginVertical": 12,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#7D7D7D",
+        "fontSize": 17,
+        "fontWeight": "400",
+        "lineHeight": 22,
+        "textAlign": "left",
+      }
+    }
+  >
+    Some of the activities in this course make brief
+  </Text>
+</View>
+`;

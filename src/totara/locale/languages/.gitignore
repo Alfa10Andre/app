@@ -1,0 +1,6 @@
+#ignore all json files in this folder
+*.json
+*.zip
+
+#DO NOT ignore the en.json fallback (default) translation file
+!en.json

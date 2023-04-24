@@ -1,0 +1,113 @@
+<!--
+ * This file is part of Totara Enterprise.
+ *
+ * Copyright (C) 2020 onwards Totara Learning Solutions LTD
+ *
+ * Totara Enterprise is provided only to Totara Learning Solutions
+ * LTD’s customers and partners, pursuant to the terms and
+ * conditions of a separate agreement with Totara Learning
+ * Solutions LTD or its affiliate.
+ *
+ * If you do not have an agreement with Totara Learning Solutions
+ * LTD, you may not access, use, modify, or distribute this software.
+ * Please contact [sales@totaralearning.com] for more information.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="Kamala Tennakoon <kamala.tennakoon@totaralearning.com>" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimal-ui" />
+    <title>Totara Mobile SCORM 1.2</title>
+    <script type="text/javascript">
+      var API = null;
+      const onInjectScormData = (
+        _entrysrc,
+        _def,
+        _cmiobj,
+        _cmiint,
+        _scormdebugging,
+        _scormauto,
+        _scormid,
+        _scoid,
+        _attempt,
+        _autocommit,
+        _masteryoverride,
+        _hidetoc,
+        oldcmi
+      ) => {
+        def = JSON.parse(_def);
+        cmiobj = JSON.parse(_cmiobj);
+        cmiint = JSON.parse(_cmiint);
+        scormdebugging = _scormdebugging;
+        scormauto = _scormauto;
+        scormid = _scormid;
+        scoid = _scoid;
+        attempt = _attempt;
+        autocommit = _autocommit;
+        masteryoverride = _masteryoverride;
+        hidetoc = _hidetoc;
+
+        API = SCORMapi1_2(
+          def,
+          cmiobj,
+          cmiint,
+          scormdebugging,
+          scormauto,
+          scormid,
+          scoid,
+          attempt,
+          autocommit,
+          masteryoverride,
+          hidetoc,
+          oldcmi
+        );
+        document.getElementById("scorm_object").setAttribute("src", _entrysrc);
+      };
+      const LogAPICall = (...arguments) => {
+        var data = "";
+        for (var i = 0; i < arguments.length; i++) {
+          data = data === "" ? arguments[i] : data + ", " + arguments[i];
+        }
+        if (document.getElementById("outputContainer")) {
+          var loggerWindow = document.getElementById("outputContainer");
+          var item = document.createElement("div");
+          if (typeof data === "string") {
+            item.innerText = data;
+          } else {
+            item.innerText = JSON.stringify(data);
+          }
+          loggerWindow.appendChild(item);
+        }
+      };
+      const onpostCommitDataToNative = (scormid, scoid, attempt, commit, cmi) => {
+        var scormData = {
+          scormid: scormid,
+          attempt: attempt,
+          scoid: scoid,
+          commit: commit,
+          cmi: cmi
+        };
+        const postData = { tmsevent: "SCORMCOMMIT", result: scormData };
+        if (window.ReactNativeWebView !== undefined) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(postData));
+        }
+      };
+    </script>
+  </head>
+
+  <body style="margin: 0; padding: 0; height: 100vh; width: 100%;">
+    <div id="scorm_object_container" style="height: 100%; width: 100%; overflow: scroll; display: block;">
+      <iframe
+        id="scorm_object"
+        allowfullscreen="allowfullscreen"
+        webkitallowfullscreen="webkitallowfullscreen"
+        mozallowfullscreen="mozallowfullscreen"
+        height="100%"
+        width="100%"
+        src="loading.html"
+      ></iframe>
+    </div>
+    <script src="scormApi.1.2.bundle.js"></script>
+  </body>
+</html>

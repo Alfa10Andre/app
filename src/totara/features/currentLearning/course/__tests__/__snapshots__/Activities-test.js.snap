@@ -1,0 +1,349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and  completionStatus completeFail 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#953539",
+          "borderColor": "#953539",
+        },
+      ]
+    }
+  >
+    <Text>
+      mock icon
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and auto-completion, completionStatus complete, complete-pass 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#69bd45",
+          "borderColor": "#69bd45",
+        },
+      ]
+    }
+  >
+    <Text>
+      mock icon
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and auto-completion, completionStatus incomplete 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderColor": "#7D7D7D",
+        },
+      ]
+    }
+  >
+    <Image
+      source="test-file-stub"
+    />
+  </View>
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and completion, completionStatus undefined 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderColor": "#4A4A4A",
+        },
+      ]
+    }
+  >
+    <Text>
+      mock icon
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and manual-completion is undefined, completionStatus is undefined 1`] = `null`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and manual-completion, completionStatus complete 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#69bd45",
+          "borderColor": "#69bd45",
+        },
+      ]
+    }
+  >
+    <Text>
+      mock icon
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is available and manual-completion, completionStatus incomplete 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderColor": "#7D7D7D",
+        },
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Activity-Icon, testing UI activity checkbox for self-completion or auto-completion Test result : Activity is not available and completion, completionStatus undefined 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": true,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "marginRight": 16,
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "height": 24,
+          "justifyContent": "center",
+          "width": 24,
+        },
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderColor": "#4A4A4A",
+        },
+      ]
+    }
+  >
+    <Text>
+      mock icon
+    </Text>
+  </View>
+</View>
+`;
